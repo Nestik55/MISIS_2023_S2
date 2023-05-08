@@ -5,9 +5,6 @@ set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
 
 set(VCPKG_TARGET_TRIPLET x64-windows)
 
-include("C:/dev/cpp/vcpkg/scripts/buildsystems/vcpkg.cmake")
-set(CMAKE_TOOLCHAIN_FILE "C:/dev/cpp/vcpkg/scripts/buildsystems/vcpkg.cmake")
-
 set(CMAKE_VERBOSE_MAKEFILE True)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True) 
