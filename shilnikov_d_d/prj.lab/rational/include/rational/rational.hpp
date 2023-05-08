@@ -1,6 +1,3 @@
-
-// Copyright 2023 by Polevoy Dmitry under Free Public License 1.0.0
-
 #pragma once
 #ifndef RATIONAL_RATIONAL_HPP_20230215
 #define RATIONAL_RATIONAL_HPP_20230215
@@ -21,6 +18,7 @@ class Rational {
 
     int32_t num() const noexcept { return num_; }
     int32_t denom() const noexcept { return den_; }
+    char delim() const noexcept { return delimiter_; }
 
     bool operator==(const Rational& ) const noexcept;
     bool operator!=(const Rational& ) const noexcept;
@@ -54,7 +52,7 @@ class Rational {
 
 std::istream &operator>>(std::istream& istrm, Rational& rhs) noexcept;
 
-std::ostream &operator<<(std::ostream& ostrm, Rational& rhs) noexcept;
+std::ostream &operator<<(std::ostream& ostrm, const Rational& rhs) noexcept;
 
 inline Rational operator+(const Rational& lhs, const Rational& rhs) noexcept {
   return Rational(lhs) += rhs;

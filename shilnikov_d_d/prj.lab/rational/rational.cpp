@@ -1,11 +1,7 @@
-// Copyright 2023 by ??? under Free Public License 1.0.0
-
 #include "include/rational/rational.hpp"
 #include <stdexcept>
-#include <algorithm>
 #include <iostream>
-#include <numeric>
-#include <string>
+#include <sstream>
 
 Rational::Rational(const int32_t num) noexcept {
 	num_ = num;
@@ -15,7 +11,7 @@ Rational::Rational(const int32_t num) noexcept {
 Rational::Rational(const int32_t num, const int32_t denom) {
 //	std::cout << "konstr: " << num << " " << denom << std::endl;
 	if (denom == 0) {
-		throw std::invalid_argument("Div bi zero!");
+        throw std::invalid_argument("Div by zero!");
 	}
 
 	num_ = num;
@@ -122,51 +118,35 @@ Rational& Rational::operator/=(const Rational& rhs) {
 
 
 std::istream& Rational::read_from(std::istream& istrm) noexcept {
-	istrm >> num_;
-	
 	char c;
-	istrm >> c;
+	int dd, nn;
+	istrm >> nn >> std::noskipws >> c >> dd >> std::skipws;
 	
-	istrm >> den_;
+	if (istrm.good() || istrm.eof()) {
+		if (c == delim() && dd > 0) {
+			*this = Rational(nn, dd);
+		} else {
+			istrm.setstate(std::ios_base::failbit);
+		}
+	}
 	
-	normalize();
+	
 	
 	return istrm;
 }
 
 std::ostream& Rational::write_to(std::ostream& ostrm) const noexcept {
-	return ostrm << num_ << delimiter_ << den_;
+    ostrm << num() << delim() << denom();
+  	return ostrm;
 }
+
 
 std::istream &operator>>(std::istream& istrm, Rational& rhs) noexcept {
-	return rhs.read_from(istrm);
+    return rhs.read_from(istrm);
 }
 
-std::ostream &operator<<(std::ostream& ostrm, Rational& rhs) noexcept {
-	return rhs.write_to(ostrm);
+std::ostream &operator<<(std::ostream& ostrm, const Rational& rhs) noexcept {
+    rhs.write_to(ostrm);
+    return ostrm;
 }
 
-
-int main() {
-
-	Rational a = Rational(1, -2);
-	Rational b = Rational(1242, -2);
-	Rational d;
-	std::cin >> a >> b >> d;
-	std::cout << "a: " << a << std::endl;
-	std::cout << "b: " << b << std::endl;
-	Rational c = a + b;
-	std::cout << "a + b: " << c << std::endl;
-	c = a - b;
-	std::cout << "a - b: " << c << std::endl;
-	c = a*b;
-	std::cout << "a*b: " << c << std::endl;
-	c = a/b;
-	std::cout << "a/b: " << c << std::endl;
-	c = -a/b;
-	std::cout << "-a/b: " << c << std::endl;
-
-	std::cout << "bool a b: " << bool(a) << " " << bool(b) << std::endl;
-	
- 	return 0;
-}
